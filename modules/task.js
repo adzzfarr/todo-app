@@ -1,4 +1,5 @@
-function createTask(name, description, dueDate, priority) {
+// task.js
+export function createTask(name, description, dueDate, priority) {
     return {
         name,
         description,

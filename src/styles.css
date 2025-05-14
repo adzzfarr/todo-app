@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+#sidebar {
+    background-color: rgb(170, 194, 216);
+    width: 30vw;
+    box-shadow: 2px 0 2px rgba(0, 0, 0, 0.3);
+}
