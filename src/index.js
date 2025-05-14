@@ -7,8 +7,10 @@ import { createProject } from '../modules/project.js';
 const testProject1 = createProject('Test Project 1');
 
 for (let i = 0; i < 3; i++) {
-    const taskName = 'Task ' + i;
-    const taskDescription = 'Description for Task ' + i;
+    const taskNumber = i + 1;
+
+    const taskName = 'Task ' + taskNumber;
+    const taskDescription = 'Description for Task ' + taskNumber;
     const taskDueDate = new Date();
     const taskPriority = i;
 
