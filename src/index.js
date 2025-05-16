@@ -1,6 +1,6 @@
 // index.js
 import './styles.css';
-import { renderSidebar } from '../modules/sidebar.js';
+import { renderSidebar } from '../dom/sidebar.js';
 import { createTask } from '../modules/task.js';
 import { createProject } from '../modules/project.js';
 

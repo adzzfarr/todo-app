@@ -6,10 +6,16 @@ export function createProject(name) {
         tasks.sort((a, b) => a.priority - b.priority)
     }
 
+    function getTaskIndex(taskId) {
+        return tasks.findIndex(task => task.id === taskId);
+    }
+
     return { 
         name,
         
         id: crypto.randomUUID(),
+
+        getTaskIndex,
 
         getTasks() {
             return tasks;
@@ -20,12 +26,22 @@ export function createProject(name) {
             orderTasks();
         },
 
-        removeTask(taskName) {
-            const index = tasks.findIndex(task => task.name === taskName);
+        removeTask(taskId) {
+            const index = getTaskIndex(taskId);
             if (index != -1) {
                 tasks.splice(index, 1);
             }
             orderTasks();
         },
+
+        swapTasks(taskOneId, taskTwoId) {
+            const indexOne = getTaskIndex(taskOneId);
+            const indexTwo = getTaskIndex(taskTwoId);
+
+            if (indexOne != -1 && indexTwo != -1) {
+                [tasks[indexOne].priority, tasks[indexTwo].priority] = [tasks[indexTwo].priority, tasks[indexOne].priority];
+                orderTasks();
+            }
+        }
     }
 }
