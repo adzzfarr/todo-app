@@ -1,7 +1,5 @@
 // task-card.js
-import { renderContent } from "./content.js";
-
-export function createTaskCard(project, task) {
+export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, onClickCheckbox) {
     const tasks = project.getTasks();
     const taskIndex = project.getTaskIndex(task.id);
 
@@ -13,6 +11,12 @@ export function createTaskCard(project, task) {
 
     const taskName = document.createElement('h2');
     taskName.textContent = task.name;
+    // Set initial style based on completion status
+    if (task.completionStatus) {
+        taskName.style.textDecoration = 'line-through';
+    } else {
+        taskName.style.textDecoration = 'none';
+    }
 
     const taskDescription = document.createElement('span');
     taskDescription.textContent = task.description;
@@ -22,62 +26,37 @@ export function createTaskCard(project, task) {
 
     taskContent.appendChild(taskName);
     taskContent.appendChild(taskDescription);
+    taskContent.appendChild(document.createElement('br'));
     taskContent.appendChild(taskDueDate);
 
     // Delete Button
     const deleteButton = document.createElement('button');
     deleteButton.classList.add('delete-task');
     deleteButton.textContent = 'Delete';
-    deleteButton.addEventListener('click', () => {
-        project.removeTask(task.id);
-        renderContent(project);
-    });
+    deleteButton.addEventListener('click', () => onDelete(task.id));
 
     // Move Up/Down Buttons
     const moveUp = document.createElement('button');
     moveUp.classList.add('move-up');
     moveUp.textContent = 'Move Up';
-    moveUp.addEventListener('click', () => {
-        if (taskIndex > 0) {
-            // Task of immediately higher priority comes immediately before the intended task in tasks
-            const higherPriorityIndex = taskIndex - 1;
-            project.swapTasks(task.id, tasks[higherPriorityIndex].id);
-            renderContent(project);
-        }
-    });
+    moveUp.addEventListener('click', () => onMoveUp(task.id));
 
     const moveDown = document.createElement('button');
     moveDown.classList.add('move-down');
     moveDown.textContent = 'Move Down';
-    moveDown.addEventListener('click', () => {
-        if (taskIndex < tasks.length - 1) {
-            // Task of immediately lower priority comes immediately after the intended task in tasks
-            const lowerPriorityIndex = taskIndex + 1;
-            project.swapTasks(task.id, tasks[lowerPriorityIndex].id);
-            renderContent(project);
-        }
-    });
+    moveDown.addEventListener('click', () => onMoveDown(task.id));
     
-    // Hide Description and Due Date in a Dropdown
-
     // Checkbox
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = task.completionStatus;
 
-    checkbox.addEventListener('click', () => {
-        task.toggleCompletion();
-
-        if (task.completionStatus) {
-            taskName.style.textDecoration = 'line-through';
-        } else {
-            taskName.style.textDecoration = 'none';
-        }
-    });
+    checkbox.addEventListener('click', () => onClickCheckbox(task.id));
 
     taskCard.appendChild(checkbox);
     taskCard.appendChild(taskContent);
     taskCard.appendChild(deleteButton);
+
     if (taskIndex > 0) {      
         taskCard.appendChild(moveUp);
     }
