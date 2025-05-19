@@ -14,3 +14,7 @@ body {
     width: 30vw;
     box-shadow: 2px 0 2px rgba(0, 0, 0, 0.3);
 }
+
+#task-details {
+    display: none;
+}

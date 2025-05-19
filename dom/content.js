@@ -20,14 +20,15 @@ export function renderContent(project) {
     for (let task of tasks) {
         const taskIndex = project.getTaskIndex(task.id);
 
+        function onDelete() {
+            project.removeTask(task.id);
+            renderContent(project);
+        }
+
         const taskCard = createTaskCard(
             project, 
             task, 
-            // onDelete
-            () => {
-                project.removeTask(task.id);
-                renderContent(project);
-            },
+            onDelete,
             // onMoveUp
             () => {
                 if (taskIndex > 0) {
