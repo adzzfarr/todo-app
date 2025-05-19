@@ -14,9 +14,10 @@ export function showTaskModal(project, onSubmitForm) {
 function renderTaskModal(project, onSubmitForm) {
     const taskModal = document.createElement('div');
     taskModal.id = 'task-modal';
+    taskModal.classList.add('modal');
 
     const modalContent = document.createElement('div');
-    modalContent.id = 'modal-content';
+    modalContent.classList.add('modal-content')
 
     const taskForm = document.createElement('form');
     taskForm.id = 'task-form';

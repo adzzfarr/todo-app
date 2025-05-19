@@ -11,6 +11,7 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
 
     const taskName = document.createElement('h2');
     taskName.textContent = task.name;
+
     // Set initial style based on completion status
     if (task.completionStatus) {
         taskName.style.textDecoration = 'line-through';
@@ -20,6 +21,7 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
 
     const taskDetails = document.createElement('div');
     taskDetails.id = 'task-details';
+    taskDetails.style.display = task.showDetails ? 'block' : 'none';
 
     const taskDescription = document.createElement('span');
     taskDescription.textContent = task.description;
@@ -29,11 +31,11 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
 
     // Toggle Details Button
     const toggleDetailsButton = document.createElement('button');
-    toggleDetailsButton.textContent = 'Show details';
+    toggleDetailsButton.textContent = task.showDetails ? 'Hide Details' : 'Show details';
     toggleDetailsButton.addEventListener('click', () => {
-        const isVisible = taskDetails.style.display === 'block';
-        taskDetails.style.display = isVisible ? 'none' : 'block';
-        toggleDetailsButton.textContent = isVisible ? 'Show Details' : 'Hide Details';
+        task.showDetails = !task.showDetails;
+        taskDetails.style.display = task.showDetails ? 'block' : 'none';
+        toggleDetailsButton.textContent = task.showDetails ? 'Hide Details' : 'Show Details';
     });
 
     taskDetails.appendChild(taskDescription);

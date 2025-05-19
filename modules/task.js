@@ -10,5 +10,6 @@ export function createTask(name, description, dueDate, priority) {
         toggleCompletion() {
             this.completionStatus = !this.completionStatus;
         },
+        showDetails: false,
     }
 }

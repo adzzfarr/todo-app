@@ -17,43 +17,45 @@ export function renderContent(project) {
     const tasks = project.getTasks();
     const taskList = document.createElement('div');
 
-    for (let task of tasks) {
-        const taskIndex = project.getTaskIndex(task.id);
+    if (tasks.length === 0) {
+        const noTasks = document.createElement('span');
+        noTasks.textContent = 'No Tasks';
+        taskList.appendChild(noTasks);
+    } else {
+        for (let task of tasks) {
+            const taskIndex = project.getTaskIndex(task.id);
 
-        function onDelete() {
-            project.removeTask(task.id);
-            renderContent(project);
-        }
+            function onDelete() {
+                project.removeTask(task.id);
+                renderContent(project);
+            }
 
-        const taskCard = createTaskCard(
-            project, 
-            task, 
-            onDelete,
-            // onMoveUp
-            () => {
+            function onMoveUp() {
                 if (taskIndex > 0) {
-                // Task of immediately higher priority comes immediately before the intended task in tasks
-                const higherPriorityIndex = taskIndex - 1;
-                project.swapTasks(task.id, tasks[higherPriorityIndex].id);
-                renderContent(project);
-                }       
-            },
-            // onMoveDown
-            () => {
+                    // Task of immediately higher priority comes immediately before the intended task in tasks
+                    const higherPriorityIndex = taskIndex - 1;
+                    project.swapTasks(task.id, tasks[higherPriorityIndex].id);
+                    renderContent(project);
+                }    
+            }
+
+            function onMoveDown() {
                 if (taskIndex < tasks.length - 1) {
-                // Task of immediately lower priority comes immediately after the intended task in tasks
-                const lowerPriorityIndex = taskIndex + 1;
-                project.swapTasks(task.id, tasks[lowerPriorityIndex].id);
-                renderContent(project);
+                    // Task of immediately lower priority comes immediately after the intended task in tasks
+                    const lowerPriorityIndex = taskIndex + 1;
+                    project.swapTasks(task.id, tasks[lowerPriorityIndex].id);
+                    renderContent(project);
                 }
-            },
-            // onClickCheckbox
-            () => {
+            }
+
+            function onClickCheckbox() {
                 task.toggleCompletion();
                 renderContent(project);
-            },
-        );
-        taskList.appendChild(taskCard);
+            }
+
+            const taskCard = createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, onClickCheckbox);
+            taskList.appendChild(taskCard);
+        }
     }
 
     // Add a Task
