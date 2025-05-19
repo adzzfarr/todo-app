@@ -43,14 +43,26 @@ function renderTaskModal(project, onSubmitForm) {
         return;
     });
 
+    const inputNameLabel = document.createElement('label');
+    inputNameLabel.setAttribute('for', 'input-task-name');
+    inputNameLabel.textContent = 'Task Name';
+
     const inputName = document.createElement('input');
     inputName.id = 'input-task-name';
     inputName.placeholder = 'Task Name';
     inputName.required = true;
 
+    const inputDescLabel = document.createElement('label');
+    inputDescLabel.setAttribute('for', 'input-task-desc');
+    inputDescLabel.textContent = 'Task Description';
+
     const inputDesc = document.createElement('textarea');
     inputDesc.id = 'input-task-desc';
     inputDesc.placeholder = 'Description';
+
+    const inputDueDateLabel = document.createElement('label');
+    inputDueDateLabel.setAttribute('for', 'input-task-duedate');
+    inputDueDateLabel.textContent = 'Due Date';
 
     const inputDueDate = document.createElement('input');
     inputDueDate.id = 'input-task-duedate';
@@ -72,8 +84,11 @@ function renderTaskModal(project, onSubmitForm) {
         return;
     });
 
+    taskForm.appendChild(inputNameLabel);
     taskForm.appendChild(inputName);
+    taskForm.appendChild(inputDescLabel);
     taskForm.appendChild(inputDesc);
+    taskForm.appendChild(inputDueDateLabel);
     taskForm.appendChild(inputDueDate);
     taskForm.appendChild(submitButton);
     taskForm.appendChild(cancelButton);

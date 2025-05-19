@@ -34,10 +34,14 @@
 
             projects.push(createdProject)
             projectForm.reset();
-            projectForm.remove();
+            projectModal.remove();
             onSubmitForm(projects);
             return;
         });
+
+        const inputNameLabel = document.createElement('label');
+        inputNameLabel.setAttribute('for', 'input-project-name');
+        inputNameLabel.textContent = 'Project Name';
 
         const inputName = document.createElement('input');
         inputName.id = 'input-project-name';
@@ -58,6 +62,7 @@
             return;
         });
 
+        projectForm.appendChild(inputNameLabel);
         projectForm.appendChild(inputName);
         projectForm.appendChild(submitButton);
         projectForm.appendChild(cancelButton);
