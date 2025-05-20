@@ -5,8 +5,11 @@ import { showProjectModal } from "./project-modal.js";
 export function renderSidebar(projects) {
     const sidebar = document.getElementById('sidebar');
 
-    // Cleat existing html
+    // Clear existing html
     sidebar.innerHTML = '';
+
+    const sidebarContent = document.createElement('div');
+    sidebarContent.id = 'sidebar-content';
 
     const sidebarHeader = document.createElement('h1');
     sidebarHeader.textContent = 'Your Projects';
@@ -23,12 +26,14 @@ export function renderSidebar(projects) {
         projectList.appendChild(projectCard);
     }
 
+    sidebarContent.appendChild(sidebarHeader);
+    sidebarContent.appendChild(projectList);
+
     const addProject = document.createElement('button');
     addProject.id = 'add-project';
     addProject.textContent = 'Add Project';
     addProject.addEventListener('click', () => showProjectModal(projects, () => renderSidebar(projects)))
 
-    sidebar.appendChild(sidebarHeader);
-    sidebar.appendChild(projectList);
+    sidebar.appendChild(sidebarContent);
     sidebar.appendChild(addProject);    
 }
