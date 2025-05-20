@@ -6,81 +6,90 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
     const taskCard = document.createElement('div');
     taskCard.classList.add('task-card');
 
-    // Task Info
-    const taskContent = document.createElement('div');
+    // Checkbox, Task Name, Toggle Details button, Move Up/Down buttons, Delete button
+    const topRow = document.createElement('div');
+    topRow.classList.add('task-top-row');
 
+    // Checkbox
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = task.completionStatus;
+    checkbox.addEventListener('change', onClickCheckbox);
+
+    // Task Name and toggleDetailsButton
+    const taskNameAndToggleDetails = document.createElement('div');
+    taskNameAndToggleDetails.classList.add('task-name-toggle');
+
+    // Task Name
     const taskName = document.createElement('h2');
     taskName.textContent = task.name;
-
     // Set initial style based on completion status
     if (task.completionStatus) {
         taskName.style.textDecoration = 'line-through';
     } else {
         taskName.style.textDecoration = 'none';
     }
+    taskNameAndToggleDetails.appendChild(taskName);
 
+    // Show/Hide details button 
+    const toggleDetailsButton = document.createElement('i');
+    toggleDetailsButton.classList.add('toggle-details', 'fas', task.showDetails ? 'fa-eye-slash' : 'fa-eye');
+    toggleDetailsButton.addEventListener('click', () => {
+        task.showDetails = !task.showDetails;
+        taskDetails.style.display = task.showDetails ? 'block' : 'none';
+        toggleDetailsButton.classList.toggle('fa-eye-slash', task.showDetails);
+        toggleDetailsButton.classList.toggle('fa-eye', !task.showDetails);
+    });
+    taskNameAndToggleDetails.appendChild(toggleDetailsButton);
+
+    // Task Control buttons
+    const taskControls = document.createElement('div');
+    taskControls.classList.add('task-controls');
+
+    // Move Up Button
+    if (taskIndex > 0) {
+        const moveUp = document.createElement('i');
+        moveUp.classList.add('move-up', 'fas', 'fa-arrow-up');
+        moveUp.addEventListener('click', onMoveUp);
+        taskControls.appendChild(moveUp);
+    }
+
+    // Move Down Button
+    if (taskIndex < tasks.length - 1) {
+        const moveDown = document.createElement('i');
+        moveDown.classList.add('move-down', 'fas', 'fa-arrow-down');
+        moveDown.addEventListener('click', onMoveDown);
+        taskControls.appendChild(moveDown);
+    }
+
+    // Delete Button
+    const deleteButton = document.createElement('i');
+    deleteButton.classList.add('task-delete', 'fas', 'fa-trash');
+    deleteButton.addEventListener('click', onDelete);
+    taskControls.appendChild(deleteButton);
+
+    // Append to topRow
+    topRow.appendChild(checkbox);
+    topRow.appendChild(taskNameAndToggleDetails);
+    topRow.appendChild(taskControls);
+
+    // Details container
     const taskDetails = document.createElement('div');
-    taskDetails.id = 'task-details';
+    taskDetails.classList.add('task-details');
     taskDetails.style.display = task.showDetails ? 'block' : 'none';
 
     const taskDescription = document.createElement('span');
     taskDescription.textContent = task.description;
 
     const taskDueDate = document.createElement('span');
-    taskDueDate.textContent = 'Due: ' + task.dueDate.toString();
-
-    // Toggle Details Button
-    const toggleDetailsButton = document.createElement('button');
-    toggleDetailsButton.textContent = task.showDetails ? 'Hide Details' : 'Show details';
-    toggleDetailsButton.addEventListener('click', () => {
-        task.showDetails = !task.showDetails;
-        taskDetails.style.display = task.showDetails ? 'block' : 'none';
-        toggleDetailsButton.textContent = task.showDetails ? 'Hide Details' : 'Show Details';
-    });
+    taskDueDate.textContent = 'Due: ' + task.dueDate.toDateString();
 
     taskDetails.appendChild(taskDescription);
     taskDetails.appendChild(document.createElement('br'));
     taskDetails.appendChild(taskDueDate);
 
-    taskContent.appendChild(taskName);
-
-    // Delete Button
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-task');
-    deleteButton.textContent = 'Delete';
-    deleteButton.addEventListener('click', onDelete);
-
-    // Move Up/Down Buttons
-    const moveUp = document.createElement('button');
-    moveUp.classList.add('move-up');
-    moveUp.textContent = 'Move Up';
-    moveUp.addEventListener('click', onMoveUp);
-
-    const moveDown = document.createElement('button');
-    moveDown.classList.add('move-down');
-    moveDown.textContent = 'Move Down';
-    moveDown.addEventListener('click', onMoveDown);
-    
-    // Checkbox
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.checked = task.completionStatus;
-
-    checkbox.addEventListener('click', onClickCheckbox);
-
-    taskCard.appendChild(checkbox);
-    taskCard.appendChild(taskContent);
-    taskCard.appendChild(toggleDetailsButton);
+    taskCard.appendChild(topRow);
     taskCard.appendChild(taskDetails);
-    taskCard.appendChild(deleteButton);
-
-    if (taskIndex > 0) {      
-        taskCard.appendChild(moveUp);
-    }
-
-    if (taskIndex < tasks.length - 1) {      
-        taskCard.appendChild(moveDown);
-    }
 
     return taskCard;
 }

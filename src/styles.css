@@ -15,7 +15,7 @@ body {
 #sidebar h1 {
     color: #ECF0F1;
     font-size: 2.25rem;        
-    padding: 0.5rem 1rem 1rem; 
+    padding: 0.25rem 0.5rem 1.5rem 1rem; 
     text-decoration: underline;
 
 }
@@ -44,7 +44,7 @@ body {
     border-radius: 10px;       
     padding: 1rem;
     margin: 0.5rem 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slightly raised */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
     cursor: pointer;
     transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
@@ -54,8 +54,6 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-
-/* Make Add Project button stick to bottom */
 #add-project {
     position: absolute;
     bottom: 1rem;
@@ -80,21 +78,19 @@ body {
     overflow-y: auto;
 }
 
-/* Modal backdrop */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    background-color: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* ensures it overlays other content */
+    z-index: 1000; 
 }
 
-/* Modal content box */
 .modal-content {
     background-color: #fff;
     padding: 2rem;
@@ -105,7 +101,6 @@ body {
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Smooth fade-in animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -117,7 +112,6 @@ body {
     }
 }
 
-/* Form input */
 .modal-content input[type="text"],
 .modal-content input[type="date"],
 .modal-content textarea {
@@ -128,7 +122,6 @@ body {
     border-radius: 5px;
 }
 
-/* Buttons */
 .modal-content button {
     padding: 0.5rem 1rem;
     margin-right: 0.5rem;
@@ -138,7 +131,6 @@ body {
     font-weight: bold;
 }
 
-/* Primary submit button */
 .modal-content .submit-modal {
     background-color: #007BFF;
     color: white;
@@ -148,7 +140,7 @@ body {
     background-color: #0056b3;
 }
 
-/* Cancel button */
+
 .modal-content #cancel-modal {
     background-color: #6c757d;
     color: white;
@@ -158,16 +150,106 @@ body {
     background-color: #5a6268;
 }
 
+.task-name-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.task-card {
+    background-color: #e6f0ff; /* a subtle, complementary light blue */
+    border: 1px solid #b3c6ff;
+    border-radius: 10px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.task-top-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+
+.task-top-row input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.task-top-row h2 {
+    font-size: 1.2rem;
+    color: #000;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.task-controls i, .toggle-details {
+    background-color: transparent;
+    color: #555;
+    padding: 0.25rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}   
+
+.task-controls i {
+    justify-content: center;
+}
+
+.toggle-details:hover {
+    color: #7aa7f9; 
+}
+
+.task-controls i.move-up:hover,
+.task-controls i.move-down:hover {
+    color: #7aa7f9;   
+}
+
+.task-controls .task-delete:hover {
+    color: #d9534f; 
+}   
+
+.toggle-details {
+    margin-top: 0.125rem;
+}
+
+.toggle-details i {
+    pointer-events: none;
+}
+
+.task-details {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #333;
+}
+
 label {
-  display: block;
-  margin-top: 1rem;
-  font-weight: bold;
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
 }
 
 input, textarea {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.25rem;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+    box-sizing: border-box;
 }
 
