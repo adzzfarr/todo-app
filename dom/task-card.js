@@ -1,4 +1,6 @@
 // task-card.js
+import { format } from 'date-fns';
+
 export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, onClickCheckbox) {
     const tasks = project.getTasks();
     const taskIndex = project.getTaskIndex(task.id);
@@ -36,7 +38,7 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
     toggleDetailsButton.classList.add('toggle-details', 'fas', task.showDetails ? 'fa-eye-slash' : 'fa-eye');
     toggleDetailsButton.addEventListener('click', () => {
         task.showDetails = !task.showDetails;
-        taskDetails.style.display = task.showDetails ? 'block' : 'none';
+        taskDetails.style.display = task.showDetails ? 'flex' : 'none';
         toggleDetailsButton.classList.toggle('fa-eye-slash', task.showDetails);
         toggleDetailsButton.classList.toggle('fa-eye', !task.showDetails);
     });
@@ -76,16 +78,15 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
     // Details container
     const taskDetails = document.createElement('div');
     taskDetails.classList.add('task-details');
-    taskDetails.style.display = task.showDetails ? 'block' : 'none';
+    taskDetails.style.display = task.showDetails ? 'flex' : 'none';
 
-    const taskDescription = document.createElement('span');
+    const taskDescription = document.createElement('div');
     taskDescription.textContent = task.description;
 
-    const taskDueDate = document.createElement('span');
-    taskDueDate.textContent = 'Due: ' + task.dueDate.toDateString();
+    const taskDueDate = document.createElement('div');
+    taskDueDate.textContent = `Due: ${format(task.dueDate, 'PPP')}`;
 
     taskDetails.appendChild(taskDescription);
-    taskDetails.appendChild(document.createElement('br'));
     taskDetails.appendChild(taskDueDate);
 
     taskCard.appendChild(topRow);

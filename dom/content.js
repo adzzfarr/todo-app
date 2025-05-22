@@ -10,7 +10,7 @@ export function renderContent(project) {
 
     // Project Header
     const projectHeader = document.createElement('h1');
-    projectHeader.classList.add('project-header');
+    projectHeader.id = 'project-header';
     projectHeader.textContent = project.name;
 
     // Tasks

@@ -9,6 +9,10 @@ export function showTaskModal(project, onSubmitForm) {
         taskModal = renderTaskModal(project, onSubmitForm);
         document.body.appendChild(taskModal);
     }
+
+    const dateInput = document.getElementById('input-task-duedate');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
 }
 
 function renderTaskModal(project, onSubmitForm) {
