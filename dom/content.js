@@ -60,7 +60,7 @@ export function renderContent(project) {
 
     // Add a Task
     const addTask = document.createElement('button');
-    addTask.classList.add('add-task');
+    addTask.id = 'add-task';
     addTask.textContent = 'Add Task';
     addTask.addEventListener('click', () => showTaskModal(
         project,

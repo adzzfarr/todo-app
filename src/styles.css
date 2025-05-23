@@ -37,6 +37,9 @@ body {
 }
 
 .project-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #ECF0F1; 
     color: black;             
     font-weight: 600;
@@ -54,8 +57,11 @@ body {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-#add-project {
+#add-project, #add-task {
     position: absolute;
+    height: 3rem;
+    width: 8rem;
+    font-size: 0.875rem;
     bottom: 1rem;
     right: 1rem;
     padding: 0.5rem 1rem;

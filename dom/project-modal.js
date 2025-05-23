@@ -1,17 +1,17 @@
     // project-modal.js
     import { createProject } from "../modules/project.js";
 
-    export function showProjectModal(projects, onSubmitForm) {
+    export function showProjectModal(projects, onSubmitForm, projectToEdit = null) {
         // Add the project modal to the DOM
         let projectModal = document.getElementById('project-modal');
 
         if (!projectModal) {   
-            projectModal = renderProjectModal(projects, onSubmitForm);
+            projectModal = renderProjectModal(projects, onSubmitForm, projectToEdit);
             document.body.appendChild(projectModal);
         }
     }
 
-    function renderProjectModal(projects, onSubmitForm) {
+    function renderProjectModal(projects, onSubmitForm, projectToEdit = null) {
         const projectModal = document.createElement('div');
         projectModal.id = 'project-modal';
         projectModal.classList.add('modal');
@@ -24,15 +24,20 @@
         projectForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
-            const projectName = document.getElementById('input-project-name').value;
+            const projectName = document.getElementById('input-project-name').value.trim();
 
             if (!projectName) {
                 alert('Please fill in all required fields.');
                 return;
             }
-            const createdProject = createProject(projectName);
+            
+            if (projectToEdit) {
+                projectToEdit.name = projectName;
+            } else {
+                const newProject = createProject(projectName);    
+                projects.push(newProject);
+            }
 
-            projects.push(createdProject)
             projectForm.reset();
             projectModal.remove();
             onSubmitForm(projects);
@@ -47,6 +52,10 @@
         inputName.id = 'input-project-name';
         inputName.placeholder = 'Project Name';
         inputName.required = true;
+
+        if (projectToEdit) {
+            inputName.value = projectToEdit.name;
+        }
 
         const submitButton = document.createElement('button');
         submitButton.classList.add('submit-modal');

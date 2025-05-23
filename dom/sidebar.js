@@ -1,6 +1,7 @@
 // sidebar.js
 import { renderContent } from "./content.js";
-import { showProjectModal } from "./project-modal.js";
+import { createProjectCard } from "./project-card.js";
+import { showEditProjectModal, showProjectModal } from "./project-modal.js";
 
 export function renderSidebar(projects) {
     const sidebar = document.getElementById('sidebar');
@@ -17,12 +18,23 @@ export function renderSidebar(projects) {
     const projectList = document.createElement('div');
 
     for (let project of projects) {
-        const projectCard = document.createElement('div');
-        projectCard.classList.add('project-card');
-        projectCard.textContent = project.name;
+        function onClickCard() {
+            renderContent(project);
+        }
 
-        projectCard.addEventListener('click', () => renderContent(project));
+        function onClickEdit() {
+            function onClickSubmit() {
+                renderSidebar(projects);
+                
+                // If the content is already showing, reflect the updated name
+                if (document.getElementById('content')) {
+                    renderContent(project);
+                }
+            }
+            showProjectModal(projects, onClickSubmit, project);
+        }
 
+        const projectCard = createProjectCard(project, onClickCard, onClickEdit);
         projectList.appendChild(projectCard);
     }
 
