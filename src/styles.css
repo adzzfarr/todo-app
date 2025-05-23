@@ -73,7 +73,7 @@ body {
     font-weight: bold;
 }
 
-#add-project:hover {
+#add-project:hover, #add-task:hover {
     background-color: #0056b3;
 }
 
@@ -196,7 +196,7 @@ body {
 
 .modal-content {
     background-color: #fff;
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     max-width: 400px;
@@ -235,6 +235,7 @@ body {
 }
 
 .modal-content .submit-modal {
+    margin-top: 1rem;
     background-color: #007BFF;
     color: white;
 }
@@ -255,14 +256,14 @@ body {
 
 label {
     display: block;
-    margin-top: 1rem;
+    margin-bottom: 0.25rem;
     font-weight: bold;
 }
 
 input, textarea {
     width: 100%;
     padding: 0.5rem;
-    margin-top: 0.25rem;
+    margin-bottom: 1rem;
     box-sizing: border-box;
 }
 

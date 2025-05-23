@@ -1,14 +1,14 @@
 // task-card.js
 import { format } from 'date-fns';
 
-export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, onClickCheckbox) {
+export function createTaskCard(project, task, onClickCheckbox, onMoveUp, onMoveDown, onClickEdit, onDelete) {
     const tasks = project.getTasks();
     const taskIndex = project.getTaskIndex(task.id);
 
     const taskCard = document.createElement('div');
     taskCard.classList.add('task-card');
 
-    // Checkbox, Task Name, Toggle Details button, Move Up/Down buttons, Delete button
+    // Checkbox, Task Name, Toggle Details button, Move Up/Down buttons, Edit Button, Delete button
     const topRow = document.createElement('div');
     topRow.classList.add('task-top-row');
 
@@ -32,6 +32,20 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
         taskName.style.textDecoration = 'none';
     }
     taskNameAndToggleDetails.appendChild(taskName);
+
+    // Details container
+    const taskDetails = document.createElement('div');
+    taskDetails.classList.add('task-details');
+    taskDetails.style.display = task.showDetails ? 'flex' : 'none';
+
+    const taskDescription = document.createElement('div');
+    taskDescription.textContent = task.description;
+
+    const taskDueDate = document.createElement('div');
+    taskDueDate.textContent = `Due: ${format(task.dueDate, 'PPP')}`;
+
+    taskDetails.appendChild(taskDescription);
+    taskDetails.appendChild(taskDueDate);
 
     // Show/Hide details button 
     const toggleDetailsButton = document.createElement('i');
@@ -64,6 +78,12 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
         taskControls.appendChild(moveDown);
     }
 
+    // Edit Button
+    const editButton = document.createElement('i');
+    editButton.classList.add('edit-button', 'fas', 'fa-pencil');
+    editButton.addEventListener('click', onClickEdit);
+    taskControls.appendChild(editButton);
+
     // Delete Button
     const deleteButton = document.createElement('i');
     deleteButton.classList.add('task-delete', 'fas', 'fa-trash');
@@ -74,20 +94,6 @@ export function createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, on
     topRow.appendChild(checkbox);
     topRow.appendChild(taskNameAndToggleDetails);
     topRow.appendChild(taskControls);
-
-    // Details container
-    const taskDetails = document.createElement('div');
-    taskDetails.classList.add('task-details');
-    taskDetails.style.display = task.showDetails ? 'flex' : 'none';
-
-    const taskDescription = document.createElement('div');
-    taskDescription.textContent = task.description;
-
-    const taskDueDate = document.createElement('div');
-    taskDueDate.textContent = `Due: ${format(task.dueDate, 'PPP')}`;
-
-    taskDetails.appendChild(taskDescription);
-    taskDetails.appendChild(taskDueDate);
 
     taskCard.appendChild(topRow);
     taskCard.appendChild(taskDetails);

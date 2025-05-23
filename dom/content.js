@@ -24,9 +24,9 @@ export function renderContent(project) {
     } else {
         for (let task of tasks) {
             const taskIndex = project.getTaskIndex(task.id);
-
-            function onDelete() {
-                project.removeTask(task.id);
+            
+            function onClickCheckbox() {
+                task.toggleCompletion();
                 renderContent(project);
             }
 
@@ -48,12 +48,20 @@ export function renderContent(project) {
                 }
             }
 
-            function onClickCheckbox() {
-                task.toggleCompletion();
+            function onClickEdit() {
+                function onSubmitForm() {
+                    renderContent(project);
+                }
+
+                showTaskModal(project, onSubmitForm, task)
+            }
+            
+            function onDelete() {
+                project.removeTask(task.id);
                 renderContent(project);
             }
 
-            const taskCard = createTaskCard(project, task, onDelete, onMoveUp, onMoveDown, onClickCheckbox);
+            const taskCard = createTaskCard(project, task, onClickCheckbox, onMoveUp, onMoveDown, onClickEdit, onDelete);
             taskList.appendChild(taskCard);
         }
     }

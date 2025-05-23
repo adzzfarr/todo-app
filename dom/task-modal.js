@@ -1,21 +1,23 @@
 // task-modal.js
 import { createTask } from "../modules/task.js";
 
-export function showTaskModal(project, onSubmitForm) {
+export function showTaskModal(project, onSubmitForm, taskToEdit = null) {
     // Add the task modal to the DOM
     let taskModal = document.getElementById('task-modal');
 
     if (!taskModal) {   
-        taskModal = renderTaskModal(project, onSubmitForm);
+        taskModal = renderTaskModal(project, onSubmitForm, taskToEdit);
         document.body.appendChild(taskModal);
     }
 
-    const dateInput = document.getElementById('input-task-duedate');
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
+    if (!taskToEdit) {
+        const dateInput = document.getElementById('input-task-duedate');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+    }
 }
 
-function renderTaskModal(project, onSubmitForm) {
+function renderTaskModal(project, onSubmitForm, taskToEdit = null) {
     const taskModal = document.createElement('div');
     taskModal.id = 'task-modal';
     taskModal.classList.add('modal');
@@ -72,6 +74,14 @@ function renderTaskModal(project, onSubmitForm) {
     inputDueDate.id = 'input-task-duedate';
     inputDueDate.type = 'date';
     inputDueDate.required = true;
+
+    if (taskToEdit) {
+        inputName.value = taskToEdit.name;
+        inputDesc.value = taskToEdit.description;
+
+        const formattedDueDate = taskToEdit.dueDate.toISOString().split('T')[0];
+        inputDueDate.value = formattedDueDate;
+    }
 
     const submitButton = document.createElement('button');
     submitButton.classList.add('submit-modal');
