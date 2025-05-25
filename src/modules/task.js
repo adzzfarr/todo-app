@@ -1,12 +1,12 @@
 // task.js
-export function createTask(name, description, dueDate, priority) {
+export function createTask(name, description, dueDate, priority, completionStatus = false, id = crypto.randomUUID(),) {
     return {
         name,
-        id: crypto.randomUUID(),
+        id,
         description,
         dueDate,
         priority,
-        completionStatus: false,        
+        completionStatus,        
         toggleCompletion() {
             this.completionStatus = !this.completionStatus;
         },

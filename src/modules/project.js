@@ -1,5 +1,5 @@
 // project.js
-export function createProject(name) {
+export function createProject(name, id = crypto.randomUUID()) {
     const tasks = [];
 
     function orderTasks() {
@@ -12,9 +12,7 @@ export function createProject(name) {
 
     return { 
         name,
-        
-        id: crypto.randomUUID(),
-
+        id, 
         getTaskIndex,
 
         getTasks() {

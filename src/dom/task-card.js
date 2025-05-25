@@ -60,7 +60,7 @@ export function createTaskCard(project, task, onClickCheckbox, onMoveUp, onMoveD
 
     // Task Control buttons
     const taskControls = document.createElement('div');
-    taskControls.classList.add('task-controls');
+    taskControls.classList.add('controls');
 
     // Move Up Button
     if (taskIndex > 0) {

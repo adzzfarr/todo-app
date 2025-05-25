@@ -1,8 +1,9 @@
 // content.js
+import { saveProjects } from "../storage.js";
 import { createTaskCard } from "./task-card.js";
 import { showTaskModal } from "./task-modal.js";
 
-export function renderContent(project) {
+export function renderContent(project, projects) {
     const content = document.getElementById('content');
 
     // Clear previous html
@@ -19,7 +20,8 @@ export function renderContent(project) {
 
     if (tasks.length === 0) {
         const noTasks = document.createElement('span');
-        noTasks.textContent = 'No Tasks';
+        noTasks.id = 'no-tasks';
+        noTasks.textContent = 'Nothing to be done yet!';
         taskList.appendChild(noTasks);
     } else {
         for (let task of tasks) {
@@ -27,7 +29,8 @@ export function renderContent(project) {
             
             function onClickCheckbox() {
                 task.toggleCompletion();
-                renderContent(project);
+                renderContent(project, projects);
+                saveProjects(projects);
             }
 
             function onMoveUp() {
@@ -35,7 +38,8 @@ export function renderContent(project) {
                     // Task of immediately higher priority comes immediately before the intended task in tasks
                     const higherPriorityIndex = taskIndex - 1;
                     project.swapTasks(task.id, tasks[higherPriorityIndex].id);
-                    renderContent(project);
+                    renderContent(project, projects);
+                    saveProjects(projects);
                 }    
             }
 
@@ -44,13 +48,15 @@ export function renderContent(project) {
                     // Task of immediately lower priority comes immediately after the intended task in tasks
                     const lowerPriorityIndex = taskIndex + 1;
                     project.swapTasks(task.id, tasks[lowerPriorityIndex].id);
-                    renderContent(project);
+                    renderContent(project, projects);
+                    saveProjects(projects);
                 }
             }
 
             function onClickEdit() {
                 function onSubmitForm() {
-                    renderContent(project);
+                    renderContent(project, projects);
+                    saveProjects(projects);
                 }
 
                 showTaskModal(project, onSubmitForm, task)
@@ -58,7 +64,8 @@ export function renderContent(project) {
             
             function onDelete() {
                 project.removeTask(task.id);
-                renderContent(project);
+                renderContent(project, projects);
+                saveProjects(projects);
             }
 
             const taskCard = createTaskCard(project, task, onClickCheckbox, onMoveUp, onMoveDown, onClickEdit, onDelete);
@@ -73,7 +80,10 @@ export function renderContent(project) {
     addTask.addEventListener('click', () => showTaskModal(
         project,
         // onSubmitForm
-        () => renderContent(project),
+        () => {
+            renderContent(project, projects);
+            saveProjects(projects);
+        },
     )); 
 
     content.appendChild(projectHeader);

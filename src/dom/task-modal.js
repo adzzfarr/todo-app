@@ -37,12 +37,18 @@ function renderTaskModal(project, onSubmitForm, taskToEdit = null) {
         if (!taskName || !taskDueDate) {
             alert('Please fill in all required fields.');
             return;
+        } 
+        
+        if (taskToEdit) {
+            taskToEdit.name = taskName;
+            taskToEdit.description = taskDesc;
+            taskToEdit.dueDate = new Date(taskDueDate);
+        } else {
+            const taskPriority = project.getTasks().length + 1;
+            const createdTask = createTask(taskName, taskDesc, new Date(taskDueDate), taskPriority);
+            project.addTask(createdTask);
         }
 
-        const taskPriority = project.getTasks().length + 1;
-        const createdTask = createTask(taskName, taskDesc, new Date(taskDueDate), taskPriority);
-
-        project.addTask(createdTask);
         taskForm.reset();
         taskModal.remove();
         onSubmitForm(project);
@@ -88,7 +94,6 @@ function renderTaskModal(project, onSubmitForm, taskToEdit = null) {
     submitButton.textContent = 'Submit';
     submitButton.type = 'submit';
     
-
     const cancelButton = document.createElement('button');
     cancelButton.id = 'cancel-modal';
     cancelButton.textContent = 'Cancel';
